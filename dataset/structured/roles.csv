@@ -1,0 +1,7 @@
+role,access_level
+Analyst,1
+CreditOfficer,2
+RiskOfficer,3
+ComplianceOfficer,4
+TreasuryOfficer,5
+Auditor,6
