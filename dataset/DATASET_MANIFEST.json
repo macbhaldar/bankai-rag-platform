@@ -1,0 +1,15 @@
+{
+  "documents": 2400,
+  "customers": 10000,
+  "accounts": 2000,
+  "transactions": 50000,
+  "loans": 5000,
+  "securities": 3000,
+  "qa_pairs": 1000,
+  "retrieval_queries": 500,
+  "hard_negatives": 100,
+  "users": 500,
+  "acl_rows": 5000,
+  "random_seed": 42,
+  "synthetic": true
+}

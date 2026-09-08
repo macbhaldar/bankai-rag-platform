@@ -1,0 +1,100 @@
+{"query_id": "HN0001", "query": "Who approves exceptions for mortgage?", "hard_negative_document": "00801_Credit_Policy_v3.4"}
+{"query_id": "HN0002", "query": "How should exceptions for mortgage be handled?", "hard_negative_document": "00583_Portfolio_Risk_Procedure_v6.5"}
+{"query_id": "HN0003", "query": "How should exceptions for working capital be handled?", "hard_negative_document": "01143_Portfolio_Risk_Procedure_v9.7"}
+{"query_id": "HN0004", "query": "When should issues involving commercial overdraft be escalated?", "hard_negative_document": "01343_Securities_Valuation_Manual_v5.4"}
+{"query_id": "HN0005", "query": "What records must be retained for investment portfolio?", "hard_negative_document": "00573_Conduct_Risk_Standard_v8.9"}
+{"query_id": "HN0006", "query": "What records must be retained for working capital?", "hard_negative_document": "02102_Interest_Rate_Risk_Manual_v9.0"}
+{"query_id": "HN0007", "query": "What records must be retained for credit card?", "hard_negative_document": "00762_Credit_Risk_Methodology_v3.0"}
+{"query_id": "HN0008", "query": "How should exceptions for credit card be handled?", "hard_negative_document": "01047_Portfolio_Risk_Procedure_v6.3"}
+{"query_id": "HN0009", "query": "What are the eligibility requirements for working capital?", "hard_negative_document": "02364_Customer_Risk_Rating_Manual_v4.8"}
+{"query_id": "HN0010", "query": "When should issues involving trade finance be escalated?", "hard_negative_document": "01022_Interest_Rate_Risk_Manual_v3.1"}
+{"query_id": "HN0011", "query": "What are the eligibility requirements for working capital?", "hard_negative_document": "00071_Trade_Operations_Guide_v5.6"}
+{"query_id": "HN0012", "query": "What must be monitored for investment portfolio?", "hard_negative_document": "01465_Mortgage_Origination_Guide_v8.2"}
+{"query_id": "HN0013", "query": "What are the eligibility requirements for commercial overdraft?", "hard_negative_document": "00699_Sanctions_Screening_Manual_v6.2"}
+{"query_id": "HN0014", "query": "What are the eligibility requirements for foreign exchange?", "hard_negative_document": "00972_Beneficial_Ownership_Guide_v4.2"}
+{"query_id": "HN0015", "query": "How should exceptions for foreign exchange be handled?", "hard_negative_document": "00385_SME_Underwriting_Procedure_v4.7"}
+{"query_id": "HN0016", "query": "Who approves exceptions for foreign exchange?", "hard_negative_document": "01248_Reconciliation_Standard_v2.6"}
+{"query_id": "HN0017", "query": "When should issues involving term loan be escalated?", "hard_negative_document": "02183_Trade_Operations_Guide_v2.6"}
+{"query_id": "HN0018", "query": "What controls are required for commercial overdraft?", "hard_negative_document": "00767_Securities_Valuation_Manual_v2.1"}
+{"query_id": "HN0019", "query": "What records must be retained for working capital?", "hard_negative_document": "01594_Liquidity_Risk_Policy_v9.8"}
+{"query_id": "HN0020", "query": "What records must be retained for mortgage?", "hard_negative_document": "00582_Liquidity_Management_Procedure_v1.3"}
+{"query_id": "HN0021", "query": "What records must be retained for foreign exchange?", "hard_negative_document": "00502_Interest_Rate_Risk_Manual_v8.2"}
+{"query_id": "HN0022", "query": "What controls are required for mortgage?", "hard_negative_document": "02306_Liquidity_Risk_Policy_v9.9"}
+{"query_id": "HN0023", "query": "What records must be retained for mortgage?", "hard_negative_document": "01445_Conduct_Risk_Standard_v1.4"}
+{"query_id": "HN0024", "query": "What controls are required for investment portfolio?", "hard_negative_document": "00795_Sanctions_Screening_Manual_v8.9"}
+{"query_id": "HN0025", "query": "What must be monitored for trade finance?", "hard_negative_document": "00006_Funding_Guide_v9.1"}
+{"query_id": "HN0026", "query": "When should issues involving foreign exchange be escalated?", "hard_negative_document": "00529_Lending_Standards_v9.3"}
+{"query_id": "HN0027", "query": "What controls are required for working capital?", "hard_negative_document": "00262_Liquidity_Management_Procedure_v9.2"}
+{"query_id": "HN0028", "query": "What must be monitored for credit card?", "hard_negative_document": "02080_Incident_Management_Procedure_v3.6"}
+{"query_id": "HN0029", "query": "What records must be retained for mortgage?", "hard_negative_document": "00195_AML_Policy_v7.7"}
+{"query_id": "HN0030", "query": "What controls are required for working capital?", "hard_negative_document": "02104_Payment_Processing_Procedure_v5.9"}
+{"query_id": "HN0031", "query": "What must be monitored for working capital?", "hard_negative_document": "02326_Funding_Guide_v5.8"}
+{"query_id": "HN0032", "query": "What are the eligibility requirements for investment portfolio?", "hard_negative_document": "00762_Credit_Risk_Methodology_v3.0"}
+{"query_id": "HN0033", "query": "How should exceptions for trade finance be handled?", "hard_negative_document": "02109_Record_Retention_Standard_v9.7"}
+{"query_id": "HN0034", "query": "Who approves exceptions for term loan?", "hard_negative_document": "02199_Trade_Operations_Guide_v5.6"}
+{"query_id": "HN0035", "query": "What must be monitored for commercial overdraft?", "hard_negative_document": "00528_Reconciliation_Standard_v8.8"}
+{"query_id": "HN0036", "query": "When should issues involving credit card be escalated?", "hard_negative_document": "01439_Portfolio_Risk_Procedure_v8.7"}
+{"query_id": "HN0037", "query": "What records must be retained for mortgage?", "hard_negative_document": "02384_Reconciliation_Standard_v5.4"}
+{"query_id": "HN0038", "query": "What records must be retained for commercial overdraft?", "hard_negative_document": "00242_Liquidity_Risk_Policy_v5.9"}
+{"query_id": "HN0039", "query": "When should issues involving term loan be escalated?", "hard_negative_document": "01095_Investment_Policy_v7.6"}
+{"query_id": "HN0040", "query": "What are the eligibility requirements for investment portfolio?", "hard_negative_document": "01045_Compliance_Policy_v6.3"}
+{"query_id": "HN0041", "query": "What are the eligibility requirements for investment portfolio?", "hard_negative_document": "02058_Market_Risk_Framework_v1.8"}
+{"query_id": "HN0042", "query": "Who approves exceptions for foreign exchange?", "hard_negative_document": "01625_Lending_Standards_v4.4"}
+{"query_id": "HN0043", "query": "How should exceptions for credit card be handled?", "hard_negative_document": "02008_Operations_Manual_v9.9"}
+{"query_id": "HN0044", "query": "What records must be retained for term loan?", "hard_negative_document": "02192_Reconciliation_Standard_v8.1"}
+{"query_id": "HN0045", "query": "What are the eligibility requirements for foreign exchange?", "hard_negative_document": "00639_Trade_Operations_Guide_v8.9"}
+{"query_id": "HN0046", "query": "Who approves exceptions for trade finance?", "hard_negative_document": "01627_AML_Policy_v7.0"}
+{"query_id": "HN0047", "query": "Who approves exceptions for commercial overdraft?", "hard_negative_document": "00937_SME_Underwriting_Procedure_v1.7"}
+{"query_id": "HN0048", "query": "What controls are required for credit card?", "hard_negative_document": "01815_Trade_Operations_Guide_v2.6"}
+{"query_id": "HN0049", "query": "When should issues involving trade finance be escalated?", "hard_negative_document": "01060_KYC_Policy_v7.0"}
+{"query_id": "HN0050", "query": "What records must be retained for trade finance?", "hard_negative_document": "00357_Regulatory_Change_Procedure_v3.6"}
+{"query_id": "HN0051", "query": "What must be monitored for credit card?", "hard_negative_document": "02048_Reconciliation_Standard_v3.8"}
+{"query_id": "HN0052", "query": "What are the eligibility requirements for foreign exchange?", "hard_negative_document": "02305_Mortgage_Origination_Guide_v3.6"}
+{"query_id": "HN0053", "query": "What records must be retained for foreign exchange?", "hard_negative_document": "00300_Customer_Due_Diligence_Standard_v2.5"}
+{"query_id": "HN0054", "query": "What records must be retained for investment portfolio?", "hard_negative_document": "00756_Customer_Risk_Rating_Manual_v3.0"}
+{"query_id": "HN0055", "query": "What must be monitored for investment portfolio?", "hard_negative_document": "00630_Funding_Guide_v9.4"}
+{"query_id": "HN0056", "query": "What controls are required for mortgage?", "hard_negative_document": "00250_Market_Risk_Framework_v4.8"}
+{"query_id": "HN0057", "query": "What must be monitored for term loan?", "hard_negative_document": "00439_Trade_Operations_Guide_v3.7"}
+{"query_id": "HN0058", "query": "What must be monitored for credit card?", "hard_negative_document": "01936_Reconciliation_Standard_v9.7"}
+{"query_id": "HN0059", "query": "When should issues involving credit card be escalated?", "hard_negative_document": "01243_AML_Policy_v3.9"}
+{"query_id": "HN0060", "query": "What records must be retained for commercial overdraft?", "hard_negative_document": "00099_AML_Escalation_Procedure_v8.1"}
+{"query_id": "HN0061", "query": "What controls are required for working capital?", "hard_negative_document": "00464_Operations_Manual_v1.1"}
+{"query_id": "HN0062", "query": "When should issues involving mortgage be escalated?", "hard_negative_document": "02295_Trade_Operations_Guide_v1.8"}
+{"query_id": "HN0063", "query": "How should exceptions for foreign exchange be handled?", "hard_negative_document": "00421_Record_Retention_Standard_v3.5"}
+{"query_id": "HN0064", "query": "What records must be retained for working capital?", "hard_negative_document": "00025_Mortgage_Origination_Guide_v4.7"}
+{"query_id": "HN0065", "query": "What records must be retained for trade finance?", "hard_negative_document": "00955_AML_Policy_v7.0"}
+{"query_id": "HN0066", "query": "What controls are required for trade finance?", "hard_negative_document": "00465_Credit_Policy_v9.4"}
+{"query_id": "HN0067", "query": "Who approves exceptions for term loan?", "hard_negative_document": "00538_Operational_Risk_Standard_v1.8"}
+{"query_id": "HN0068", "query": "When should issues involving term loan be escalated?", "hard_negative_document": "00612_Beneficial_Ownership_Guide_v2.3"}
+{"query_id": "HN0069", "query": "Who approves exceptions for trade finance?", "hard_negative_document": "01266_Credit_Risk_Methodology_v8.6"}
+{"query_id": "HN0070", "query": "How should exceptions for working capital be handled?", "hard_negative_document": "00891_AML_Escalation_Procedure_v3.0"}
+{"query_id": "HN0071", "query": "What must be monitored for foreign exchange?", "hard_negative_document": "01974_Liquidity_Management_Procedure_v2.0"}
+{"query_id": "HN0072", "query": "Who approves exceptions for mortgage?", "hard_negative_document": "01805_Compliance_Policy_v3.3"}
+{"query_id": "HN0073", "query": "When should issues involving investment portfolio be escalated?", "hard_negative_document": "01503_Portfolio_Risk_Procedure_v5.2"}
+{"query_id": "HN0074", "query": "How should exceptions for credit card be handled?", "hard_negative_document": "01011_Transaction_Monitoring_Standard_v1.7"}
+{"query_id": "HN0075", "query": "How should exceptions for trade finance be handled?", "hard_negative_document": "01296_Payment_Processing_Procedure_v9.1"}
+{"query_id": "HN0076", "query": "When should issues involving term loan be escalated?", "hard_negative_document": "01772_Customer_Due_Diligence_Standard_v5.2"}
+{"query_id": "HN0077", "query": "What must be monitored for investment portfolio?", "hard_negative_document": "00656_Incident_Management_Procedure_v3.1"}
+{"query_id": "HN0078", "query": "How should exceptions for foreign exchange be handled?", "hard_negative_document": "01776_Operations_Manual_v5.4"}
+{"query_id": "HN0079", "query": "What records must be retained for credit card?", "hard_negative_document": "00243_Transaction_Monitoring_Standard_v5.4"}
+{"query_id": "HN0080", "query": "What records must be retained for mortgage?", "hard_negative_document": "00023_Securities_Valuation_Manual_v4.0"}
+{"query_id": "HN0081", "query": "How should exceptions for mortgage be handled?", "hard_negative_document": "01060_KYC_Policy_v7.0"}
+{"query_id": "HN0082", "query": "What controls are required for mortgage?", "hard_negative_document": "00188_Beneficial_Ownership_Guide_v1.6"}
+{"query_id": "HN0083", "query": "When should issues involving foreign exchange be escalated?", "hard_negative_document": "00122_Liquidity_Risk_Policy_v7.4"}
+{"query_id": "HN0084", "query": "Who approves exceptions for mortgage?", "hard_negative_document": "00588_Beneficial_Ownership_Guide_v9.7"}
+{"query_id": "HN0085", "query": "Who approves exceptions for term loan?", "hard_negative_document": "02005_Record_Retention_Standard_v5.6"}
+{"query_id": "HN0086", "query": "When should issues involving mortgage be escalated?", "hard_negative_document": "01274_Operational_Risk_Standard_v1.9"}
+{"query_id": "HN0087", "query": "What controls are required for commercial overdraft?", "hard_negative_document": "00716_KYC_Policy_v8.1"}
+{"query_id": "HN0088", "query": "What controls are required for term loan?", "hard_negative_document": "00592_Payment_Processing_Procedure_v3.8"}
+{"query_id": "HN0089", "query": "What are the eligibility requirements for commercial overdraft?", "hard_negative_document": "02156_Beneficial_Ownership_Guide_v5.4"}
+{"query_id": "HN0090", "query": "What are the eligibility requirements for commercial overdraft?", "hard_negative_document": "00448_Incident_Management_Procedure_v5.4"}
+{"query_id": "HN0091", "query": "How should exceptions for investment portfolio be handled?", "hard_negative_document": "00616_Payment_Processing_Procedure_v3.8"}
+{"query_id": "HN0092", "query": "How should exceptions for investment portfolio be handled?", "hard_negative_document": "00806_Funding_Guide_v6.4"}
+{"query_id": "HN0093", "query": "When should issues involving term loan be escalated?", "hard_negative_document": "00926_Treasury_Policy_v8.9"}
+{"query_id": "HN0094", "query": "What records must be retained for working capital?", "hard_negative_document": "02274_Liquidity_Risk_Policy_v6.4"}
+{"query_id": "HN0095", "query": "How should exceptions for commercial overdraft be handled?", "hard_negative_document": "01683_Transaction_Monitoring_Standard_v6.9"}
+{"query_id": "HN0096", "query": "When should issues involving trade finance be escalated?", "hard_negative_document": "02297_Mortgage_Origination_Guide_v1.8"}
+{"query_id": "HN0097", "query": "What records must be retained for credit card?", "hard_negative_document": "00895_Investment_Policy_v1.8"}
+{"query_id": "HN0098", "query": "What are the eligibility requirements for working capital?", "hard_negative_document": "00565_Compliance_Policy_v9.4"}
+{"query_id": "HN0099", "query": "What are the eligibility requirements for commercial overdraft?", "hard_negative_document": "01511_Portfolio_Risk_Procedure_v2.7"}
+{"query_id": "HN0100", "query": "What controls are required for investment portfolio?", "hard_negative_document": "01163_Transaction_Monitoring_Standard_v3.1"}
