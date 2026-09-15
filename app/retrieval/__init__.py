@@ -1,0 +1,1 @@
+"""Retrieval layer: embeddings, vector store, BM25, hybrid fusion, reranking."""
