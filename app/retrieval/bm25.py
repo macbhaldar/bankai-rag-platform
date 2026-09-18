@@ -89,14 +89,14 @@ class BM25Index:
         """Document-ids whose chunk metadata satisfies a simple equality filter."""
         if not meta_filter:
             return None
-        allowed: set[str] | None = None
+        allowed: set[str] = set()
         for entry in self.entries:
             if all(entry.meta.get(k) == v for k, v in meta_filter.items()):
                 allowed.add(entry.meta.get("document_id", "")) if allowed is not None else allowed
                 if allowed is None:
                     allowed = set()
                 allowed.add(entry.meta.get("document_id", ""))
-        return allowed or set()
+        return allowed
  
     def search(self, query: str, k: int, allowed_document_ids: set[str] | None = None) -> list[tuple[str, float]]:
         if not self.entries:
