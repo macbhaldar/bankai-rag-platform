@@ -174,32 +174,9 @@ class HybridRetriever:
                     best_by_family[hit.family] = hit
             hits = list(best_by_family.values())
  
-        hits.sort(key=lambda h: h.fused_score, reverse=True)
-        hits = hits[: max(k * 3, 20)]
- 
         if self.reranker is not None and hits:
             hits = self.reranker.rerank(query, hits)
  
-        hits.sort(
-            key=lambda h: h.rerank_score if h.rerank_score is not None else h.fused_score,
-            reverse=True,
-        )
+        hits.sort(key=lambda h: h.rerank_score if h.rerank_score is not None else h.fused_score, reverse=True)
         return hits[:k]
  
-    def _ids_from_where(self, where: dict) -> set[str] | None:
-        """Extract document_id restrictions from a chroma where clause."""
-        if "document_id" in where:
-            op = where["document_id"]
-            if "$eq" in op:
-                return {op["$eq"]}
-            if "$in" in op:
-                return set(op["$in"])
-        if "$and" in where:
-            for condition in where["$and"]:
-                if "document_id" in condition:
-                    op = condition["document_id"]
-                    if "$eq" in op:
-                        return {op["$eq"]}
-                    if "$in" in op:
-                        return set(op["$in"])
-        return None
