@@ -1,0 +1,1 @@
+"""Security layer: permission-aware retrieval."""
