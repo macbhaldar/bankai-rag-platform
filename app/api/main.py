@@ -15,7 +15,7 @@ from app.api.schemas import (
     QARequest,
     SearchRequest,
     StructuredRequest,)
-from app.core.config import Settings, get_settings
+from app.core.config import PROJECT_ROOT, Settings, get_settings
 from app.core.container import Services, get_services
 from app.core.logging import get_logger
 from app.evaluation.evaluator import EvalError, run_benchmark, save_report
@@ -157,9 +157,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         if source is not None:
             resolved = source if source.is_absolute() else (Path.cwd() / source)
             resolved = resolved.resolve()
-            repo_root = settings.paths.corpus_dir.parent.parent
-            if not (resolved.is_dir() and str(resolved).startswith(str(repo_root))):
-                raise HTTPException(status_code=400, detail=f"source_dir must be a directory inside {repo_root}")
+            if not (resolved.is_dir() and str(resolved).startswith(str(PROJECT_ROOT))):
+                raise HTTPException(status_code=400, detail=f"source_dir must be a directory inside {PROJECT_ROOT}")
         try:
             report: IngestReport = services.ingester.run(
                 source_dir=source, rebuild=request.rebuild, dry_run=request.dry_run, limit=request.limit,
@@ -180,9 +179,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         target = target_dir / f"{int(time.time())}_{Path(file.filename).name}"
         target.write_bytes(await file.read())
         try:
-            report: IngestReport = services.ingester.run(source_dir=target.parent if False else None)  # placeholder
+            report: IngestReport = services.ingester.run(source_dir=target)
         except IngestError as exc:
             raise HTTPException(status_code=400, detail=str(exc)) from exc
+        services.acl.set_domains(services.ingester.domains())
         return report.to_dict()
     
     @app.get("/api/documents", tags=["ingestion"])
