@@ -55,6 +55,14 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         )
     guard = _require_api_key
 
+    @app.middleware("http")
+    async def api_key_middleware(request, call_next):
+        if request.url.path.startswith("/api/") and settings.api.key:
+            if request.headers.get("X-API-Key") != settings.api.key:
+                from fastapi.responses import JSONResponse
+                return JSONResponse(status_code=401, content={"detail": "invalid or missing X-API-Key"})
+        return await call_next(request)
+
     # health
     @app.get("/health", tags=["ops"])
     def health():
