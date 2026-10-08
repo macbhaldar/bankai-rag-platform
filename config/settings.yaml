@@ -1,0 +1,46 @@
+# BankRAG default configuration.
+# Environment variables BANKRAG_* override these values.
+
+api:
+  host: 127.0.0.1
+  port: 8000
+  key: ""
+  cors_origins:
+    - "*"
+
+embedding:
+  provider: auto
+  model: ""
+  batch_size: 64
+
+chunking:
+  max_words: 220
+  overlap_words: 40
+  min_words: 30
+
+retrieval:
+  dense_k: 24
+  bm25_k: 24
+  final_k: 8
+  rrf_k: 60
+  use_reranker: false
+  multi_query: false
+  low_confidence_dense: 0.30
+
+llm:
+  provider: auto
+  model: gpt-4o-mini
+  base_url: https://api.openai.com/v1
+  api_key: ""
+  temperature: 0.1
+  max_tokens: 700
+  ollama_url: http://127.0.0.1:11434
+
+security:
+  mask_pii: true
+
+structured:
+  enabled: true
+  max_rows: 200
+
+log_level: INFO
