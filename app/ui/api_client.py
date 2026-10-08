@@ -7,6 +7,10 @@ import requests
 
 DEFAULT_TIMEOUT = 120
 
+def _headers() -> dict[str, str]:
+    key = os.environ.get("BANKRAG_API_KEY", "").strip()
+    return {"X-API-Key": key} if key else {}
+
 def api_base() -> str:
     return os.environ.get("BANKRAG_API_URL", "http://127.0.0.1:8000").rstrip("/")
 
@@ -15,7 +19,7 @@ class ApiError(RuntimeError):
 
 def _get(path: str, params: dict | None = None, timeout: int = DEFAULT_TIMEOUT) -> dict:
     try:
-        response = requests.get(f"{api_base()}{path}", params=params, timeout=timeout)
+        response = requests.get(f"{api_base()}{path}", params=params, headers=_headers(), timeout=timeout)
     except requests.ConnectionError as exc:
         raise ApiError(f"API unreachable at {api_base()} — start it with scripts/dev.sh") from exc
     response.raise_for_status()
@@ -23,7 +27,7 @@ def _get(path: str, params: dict | None = None, timeout: int = DEFAULT_TIMEOUT) 
 
 def _post(path: str, json: dict | None = None, timeout: int = DEFAULT_TIMEOUT) -> dict:
     try:
-        response = requests.post(f"{api_base()}{path}", json=json, timeout=timeout)
+        response = requests.post(f"{api_base()}{path}", json=json, headers=_headers(), timeout=timeout)
     except requests.ConnectionError as exc:
         raise ApiError(f"API unreachable at {api_base()} — start it with scripts/dev.sh") from exc
     if response.status_code >= 400:
@@ -65,6 +69,7 @@ def ingest_upload(path: Path) -> dict:
             response = requests.post(
                 f"{api_base()}/api/ingest/upload",
                 files={"file": (path.name, fh)},
+                headers=_headers(),
                 timeout=DEFAULT_TIMEOUT,)
     except requests.ConnectionError as exc:
         raise ApiError(f"API unreachable at {api_base()}") from exc
@@ -82,7 +87,7 @@ def documents(limit: int = 100, offset: int = 0, domain: str | None = None,
 
 def delete_document(document_id: str) -> dict:
     try:
-        response = requests.delete(f"{api_base()}/api/documents/{document_id}", timeout=60)
+        response = requests.delete(f"{api_base()}/api/documents/{document_id}", headers=_headers(), timeout=60)
     except requests.ConnectionError as exc:
         raise ApiError(f"API unreachable at {api_base()}") from exc
     response.raise_for_status()
