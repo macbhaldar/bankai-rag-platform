@@ -86,3 +86,67 @@ USER QUESTION  ----------->|
 The objective is not simply to generate fluent text. The objective is to
 make the generated response **useful, traceable, and grounded in
 retrieved evidence**.
+
+
+## Quick start
+
+### Windows 10/11
+
+```bat
+py -3 -m venv .venv
+.venv\Scripts\python.exe -m pip install --upgrade pip
+.venv\Scripts\python.exe -m pip install -r requirements.txt
+copy .env.example .env
+.venv\Scripts\python.exe scripts\run_ingest.py --rebuild
+.venv\Scripts\python.exe scripts\run_api.py
+```
+
+In another terminal:
+
+```bat
+.venv\Scripts\python.exe -m streamlit run app\ui\streamlit_app.py --server.port 8501
+```
+
+Open the API documentation at `http://127.0.0.1:8000/docs` and the Streamlit UI at `http://127.0.0.1:8501`.
+
+### Linux / macOS
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install --upgrade pip
+.venv/bin/python -m pip install -r requirements.txt
+cp .env.example .env
+.venv/bin/python scripts/run_ingest.py --rebuild
+./scripts/dev.sh
+```
+
+### Offline mode
+
+The platform can run without an external LLM by setting:
+
+```text
+BANKRAG_LLM_PROVIDER=extractive
+BANKRAG_EMBEDDING_PROVIDER=hash
+```
+
+The test suite uses these deterministic providers.
+
+### Optional local generation
+
+For Ollama, set `BANKRAG_LLM_PROVIDER=ollama`, `BANKRAG_OLLAMA_URL`, and `BANKRAG_LLM_MODEL`.
+
+For an OpenAI-compatible endpoint, set `BANKRAG_LLM_PROVIDER=openai`, `BANKRAG_LLM_BASE_URL`, `BANKRAG_LLM_API_KEY`, and `BANKRAG_LLM_MODEL`.
+
+### API security
+
+Set `BANKRAG_API_KEY` to protect all `/api/*` routes. `/health` remains public for monitoring. The Streamlit client automatically forwards the configured key.
+
+### Evaluation
+
+```bash
+python scripts/run_eval.py --benchmark retrieval
+python scripts/run_eval.py --benchmark qa_test
+python scripts/run_eval.py --benchmark hard_negatives
+```
+
+Reports are written to `data/eval_results/`.
