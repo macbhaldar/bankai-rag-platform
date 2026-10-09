@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BankAI RAG Platform — Architecture</title>
+    <style>
+         :root {
+            --bg: #f4f7fb;
+            --ink: #172033;
+            --muted: #627089;
+            --line: #d9e2ef;
+            --blue: #2563eb;
+            --cyan: #0891b2;
+            --green: #059669;
+            --violet: #7c3aed;
+            --amber: #d97706;
+            --rose: #e11d48;
+            --card: #fff
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        html {
+            scroll-behavior: smooth
+        }
+        
+        body {
+            margin: 0;
+            background: radial-gradient(circle at 10% 0%, #e4f0ff 0, transparent 28%), radial-gradient(circle at 100% 30%, #e9e7ff 0, transparent 24%), var(--bg);
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            color: var(--ink)
+        }
+        
+        header {
+            padding: 28px clamp(16px, 4vw, 54px) 18px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-wrap: wrap
+        }
+        
+        .eyebrow {
+            font-size: 11px;
+            letter-spacing: .16em;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: #3b67b4;
+            margin-bottom: 8px
+        }
+        
+        h1 {
+            font-size: clamp(27px, 4vw, 44px);
+            letter-spacing: -.04em;
+            line-height: 1.04;
+            margin: 0;
+            max-width: 800px
+        }
+        
+        .subtitle {
+            color: var(--muted);
+            margin: 12px 0 0;
+            max-width: 760px;
+            line-height: 1.6;
+            font-size: 14px
+        }
+        
+        .controls {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            padding-top: 4px
+        }
+        
+        button {
+            border: 1px solid #cbd6e5;
+            background: white;
+            color: #24334c;
+            border-radius: 11px;
+            padding: 10px 13px;
+            font-weight: 750;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: 0 2px 7px #1720330b;
+            transition: .2s
+        }
+        
+        button:hover {
+            transform: translateY(-1px);
+            border-color: #8aa9d7
+        }
+        
+        button.primary {
+            background: #1e4fd6;
+            color: #fff;
+            border-color: #1e4fd6
+        }
+        
+        main {
+            padding: 0 clamp(12px, 3vw, 42px) 36px;
+            max-width: 1600px;
+            margin: auto
+        }
+        
+        .toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 13px 16px;
+            background: #ffffffc9;
+            border: 1px solid #dce5f0;
+            border-radius: 16px 16px 0 0
+        }
+        
+        .legend {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            color: #53627a;
+            font-size: 11px;
+            font-weight: 700
+        }
+        
+        .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 3px;
+            margin-right: 6px
+        }
+        
+        .status {
+            font-size: 11px;
+            font-weight: 800;
+            color: #1b7c61;
+            display: flex;
+            align-items: center;
+            gap: 7px
+        }
+        
+        .pulse {
+            width: 7px;
+            height: 7px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px #10b98120;
+            animation: pulse 1.8s infinite
+        }
+        
+        @keyframes pulse {
+            50% {
+                box-shadow: 0 0 0 8px #10b98100
+            }
+        }
+        
+        .canvas {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #fbfdff, #f3f7fd);
+            border: 1px solid #dce5f0;
+            border-top: 0;
+            border-radius: 0 0 18px 18px;
+            min-height: 780px;
+            padding: 24px 18px 32px
+        }
+        
+        .canvas:before,
+        .canvas:after {
+            content: "";
+            position: absolute;
+            width: 330px;
+            height: 330px;
+            border: 1px solid #dbe5f0;
+            border-radius: 50%;
+            opacity: .45;
+            pointer-events: none
+        }
+        
+        .canvas:before {
+            left: -190px;
+            top: 150px;
+            box-shadow: 0 0 0 28px #edf3fa, 0 0 0 56px #f5f8fc
+        }
+        
+        .canvas:after {
+            right: -190px;
+            bottom: 0;
+            box-shadow: 0 0 0 28px #edf3fa, 0 0 0 56px #f5f8fc
+        }
+        
+        .architecture {
+            position: relative;
+            z-index: 1;
+            max-width: 1050px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 56px minmax(0, 1fr);
+            gap: 10px 12px;
+            align-items: stretch
+        }
+        
+        .lane-title {
+            grid-column: span 1;
+            font-size: 11px;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: #65748c;
+            font-weight: 850;
+            padding: 5px 3px 2px
+        }
+        
+        .lane-title.center {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-top: 8px
+        }
+        
+        .node {
+            position: relative;
+            border: 1px solid #d6dfec;
+            background: #fff;
+            border-radius: 15px;
+            padding: 15px 16px;
+            box-shadow: 0 5px 18px #1c34500b;
+            min-height: 91px;
+            transition: transform .25s, border-color .25s, box-shadow .25s;
+            overflow: hidden
+        }
+        
+        .node:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--accent, #64748b)
+        }
+        
+        .node:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px #1c345018;
+            border-color: #9db5d6
+        }
+        
+        .node.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent), 0 10px 24px #1c345018;
+            transform: translateY(-2px)
+        }
+        
+        .node.active .node-icon {
+            animation: icon-bob .65s ease-in-out infinite alternate
+        }
+        
+        @keyframes icon-bob {
+            to {
+                transform: scale(1.08) rotate(-3deg)
+            }
+        }
+        
+        .node-top {
+            display: flex;
+            gap: 11px;
+            align-items: center
+        }
+        
+        .node-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            background: var(--tint, #eef2ff);
+            font-size: 22px;
+            flex: 0 0 auto
+        }
+        
+        .node h3 {
+            font-size: 14px;
+            letter-spacing: -.015em;
+            margin: 0 0 4px;
+            line-height: 1.25
+        }
+        
+        .node p {
+            font-size: 11px;
+            color: #6a778c;
+            line-height: 1.45;
+            margin: 0
+        }
+        
+        .pills {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-top: 10px
+        }
+        
+        .pill {
+            font-size: 9px;
+            font-weight: 800;
+            color: #56647a;
+            background: #f1f5f9;
+            border: 1px solid #e4eaf2;
+            padding: 4px 6px;
+            border-radius: 6px
+        }
+        
+        .ingest {
+            --accent: #d97706;
+            --tint: #fff4d9
+        }
+        
+        .process {
+            --accent: #0284c7;
+            --tint: #e0f5ff
+        }
+        
+        .index {
+            --accent: #0d9488;
+            --tint: #d9faf3
+        }
+        
+        .retrieve {
+            --accent: #7c3aed;
+            --tint: #f0e8ff
+        }
+        
+        .generate {
+            --accent: #2563eb;
+            --tint: #e5edff
+        }
+        
+        .secure {
+            --accent: #059669;
+            --tint: #dcfce9
+        }
+        
+        .observe {
+            --accent: #db2777;
+            --tint: #ffe4ef
+        }
+        
+        .data {
+            --accent: #64748b;
+            --tint: #edf2f7
+        }
+        
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-height: 80px
+        }
+        
+        .flow svg {
+            width: 42px;
+            height: 100%;
+            min-height: 62px;
+            overflow: visible
+        }
+        
+        .flow path {
+            stroke: #9bb2d1;
+            stroke-width: 2.5;
+            fill: none;
+            stroke-linecap: round;
+            stroke-dasharray: 5 6
+        }
+        
+        .flow .packet {
+            fill: #2563eb;
+            filter: drop-shadow(0 1px 2px #2563eb55)
+        }
+        
+        .flow.running path {
+            stroke: #4b83d8
+        }
+        
+        .flow.running .packet {
+            animation: travel 1.6s linear infinite
+        }
+        
+        @keyframes travel {
+            from {
+                transform: translateY(-22px);
+                opacity: 0
+            }
+            20% {
+                opacity: 1
+            }
+            80% {
+                opacity: 1
+            }
+            to {
+                transform: translateY(22px);
+                opacity: 0
+            }
+        }
+        
+        .span3 {
+            grid-column: 1 / -1
+        }
+        
+        .arrow-row {
+            grid-column: 1/-1;
+            display: flex;
+            justify-content: center;
+            height: 24px;
+            align-items: center
+        }
+        
+        .arrow-row svg {
+            width: 30px;
+            height: 24px
+        }
+        
+        .arrow-row path {
+            stroke: #8da9d0;
+            stroke-width: 2.5;
+            fill: none;
+            stroke-dasharray: 4 5
+        }
+        
+        .arrow-row.running path {
+            stroke: #2563eb;
+            animation: dash .65s linear infinite
+        }
+        
+        @keyframes dash {
+            to {
+                stroke-dashoffset: -18
+            }
+        }
+        
+        .twocol {
+            grid-column: 1/-1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+        
+        .sideflow {
+            display: grid;
+            grid-template-columns: 1fr 36px 1fr;
+            gap: 8px;
+            align-items: center
+        }
+        
+        .mini-node {
+            background: #fff;
+            border: 1px solid #d9e2ef;
+            border-radius: 12px;
+            padding: 12px;
+            min-height: 76px
+        }
+        
+        .mini-node b {
+            display: block;
+            font-size: 11px;
+            margin-bottom: 5px
+        }
+        
+        .mini-node small {
+            display: block;
+            color: #718096;
+            font-size: 10px;
+            line-height: 1.45
+        }
+        
+        .h-arrow {
+            font-size: 22px;
+            text-align: center;
+            color: #7290bd;
+            animation: arrow-pulse 1.5s ease-in-out infinite
+        }
+        
+        @keyframes arrow-pulse {
+            50% {
+                transform: translateX(4px);
+                color: #2563eb
+            }
+        }
+        
+        .node.full {
+            grid-column: 1/-1
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 22px;
+            position: relative;
+            z-index: 1
+        }
+        
+        .footer-card {
+            border: 1px solid #dce5f0;
+            background: #ffffffd9;
+            border-radius: 13px;
+            padding: 13px 14px
+        }
+        
+        .footer-card strong {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 11px;
+            margin-bottom: 5px
+        }
+        
+        .footer-card p {
+            margin: 0;
+            color: #718096;
+            font-size: 10px;
+            line-height: 1.5
+        }
+        
+        .detail {
+            margin-top: 18px;
+            background: #fff;
+            border: 1px solid #dce5f0;
+            border-radius: 15px;
+            padding: 17px 19px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 14px;
+            align-items: center
+        }
+        
+        .detail h2 {
+            font-size: 14px;
+            margin: 0 0 5px
+        }
+        
+        .detail p {
+            font-size: 12px;
+            color: #65748b;
+            line-height: 1.6;
+            margin: 0;
+            max-width: 850px
+        }
+        
+        .step-indicator {
+            font-size: 11px;
+            font-weight: 850;
+            color: #315ca7;
+            background: #edf4ff;
+            padding: 8px 10px;
+            border-radius: 9px;
+            white-space: nowrap
+        }
+        
+        .smallprint {
+            color: #8a96a9;
+            font-size: 10px;
+            margin: 13px 2px 0;
+            line-height: 1.5
+        }
+        
+        @media(max-width:760px) {
+            header {
+                padding-top: 22px
+            }
+            .architecture {
+                grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1fr);
+                gap: 8px 5px
+            }
+            .node {
+                padding: 11px 10px;
+                min-height: 104px
+            }
+            .node-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 17px;
+                border-radius: 9px
+            }
+            .node h3 {
+                font-size: 12px
+            }
+            .node p {
+                font-size: 10px
+            }
+            .pills {
+                display: none
+            }
+            .flow svg {
+                width: 28px
+            }
+            .canvas {
+                padding: 16px 8px 24px;
+                min-height: 0
+            }
+            .twocol {
+                grid-template-columns: 1fr
+            }
+            .footer-grid {
+                grid-template-columns: 1fr
+            }
+            .sideflow {
+                grid-template-columns: 1fr 20px 1fr
+            }
+            .mini-node {
+                padding: 9px
+            }
+            .detail {
+                grid-template-columns: 1fr
+            }
+            .lane-title {
+                font-size: 9px
+            }
+            .legend {
+                gap: 8px
+            }
+            .toolbar {
+                align-items: flex-start
+            }
+        }
+        
+        @media(prefers-reduced-motion:reduce) {
+            *,
+            *:before,
+            *:after {
+                animation-duration: .01ms!important;
+                animation-iteration-count: 1!important;
+                scroll-behavior: auto!important;
+                transition: none!important
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div>
+            <div class="eyebrow">BankAI · Intelligence Platform</div>
+            <h1>BankAI RAG Platform<br><span style="color:#3565c9"> Architecture</span></h1>
+            <p class="subtitle">An interactive, end-to-end view of a banking knowledge assistant - from controlled document ingestion to grounded answers, access controls, and operational monitoring.</p>
+        </div>
+        <div class="controls">
+            <button class="primary" id="playBtn">Ⅱ Pause flow</button>
+            <button id="stepBtn">Next stage →</button>
+            <button id="resetBtn">↺ Reset</button>
+        </div>
+    </header>
+    <main>
+        <div class="toolbar">
+            <div class="legend">
+                <span><i class="dot" style="background:#d97706"></i>Ingestion</span>
+                <span><i class="dot" style="background:#0d9488"></i>Knowledge store</span>
+                <span><i class="dot" style="background:#7c3aed"></i>Retrieval</span>
+                <span><i class="dot" style="background:#2563eb"></i>Generation</span>
+                <span><i class="dot" style="background:#059669"></i>Trust & safety</span>
+            </div>
+            <div class="status"><span class="pulse"></span><span id="statusText">PIPELINE SIMULATION ACTIVE</span></div>
+        </div>
+        <section class="canvas" aria-label="Interactive RAG architecture diagram">
+            <div class="architecture">
+                <div class="lane-title">01 · Knowledge ingestion</div>
+                <div></div>
+                <div class="lane-title">02 · Query & response path</div>
+
+                <article class="node ingest" data-step="0" tabindex="0" role="button" aria-label="Enterprise data sources">
+                    <div class="node-top">
+                        <div class="node-icon">📚</div>
+                        <div>
+                            <h3>Banking Knowledge Sources</h3>
+                            <p>Policies, SOPs, product manuals, reports, FAQs</p>
+                        </div>
+                    </div>
+                    <div class="pills"><span class="pill">PDF / DOCX</span><span class="pill">CSV / XLSX</span><span class="pill">Versioned files</span></div>
+                </article>
+                <div class="flow running" data-flow="0"><svg viewBox="0 0 42 100" preserveAspectRatio="none"><path d="M21 4 V96"/><path class="packet" d="M21 42 l-5 -7 h10 z"/></svg></div>
+                <article class="node secure" data-step="5" tabindex="0" role="button" aria-label="Bank employee interface">
+                    <div class="node-top">
+                        <div class="node-icon">👤</div>
+                        <div>
+                            <h3>Bank Employee / Analyst</h3>
+                            <p>Secure chat UI and document Q&A</p>
+                        </div>
+                    </div>
+                    <div class="pills"><span class="pill">SSO / JWT</span><span class="pill">Role-aware</span></div>
+                </article>
+
+                <article class="node process" data-step="1" tabindex="0" role="button" aria-label="Document processing">
+                    <div class="node-top">
+                        <div class="node-icon">⚙️</div>
+                        <div>
+                            <h3>Document Processing</h3>
+                            <p>Parse, OCR, normalize, redact, chunk</p>
+                        </div>
+                    </div>
+                    <div class="pills"><span class="pill">Metadata</span><span class="pill">Chunk overlap</span><span class="pill">PII checks</span></div>
+                </article>
+                <div class="flow running" data-flow="1"><svg viewBox="0 0 42 100" preserveAspectRatio="none"><path d="M21 4 V96"/><path class="packet" d="M21 42 l-5 -7 h10 z"/></svg></div>
+                <article class="node process" data-step="6" tabindex="0" role="button" aria-label="Query orchestration">
+                    <div class="node-top">
+                        <div class="node-icon">🧭</div>
+                        <div>
+                            <h3>Query Orchestrator</h3>
+                            <p>Validate request, rewrite query, route tools</p>
+                        </div>
+                    </div>
+                    <div class="pills"><span class="pill">FastAPI</span><span class="pill">Rate limits</span></div>
+                </article>
+
+                <article class="node index" data-step="2" tabindex="0" role="button" aria-label="Embedding and indexing">
+                    <div class="node-top">
+                        <div class="node-icon">🧬</div>
+                        <div>
+                            <h3>Embedding & Indexing</h3>
+                            <p>Encode chunks and persist searchable records</p>
+                        </div>
+                    </div>
+                    <div class="pills"><span class="pill">Embedding model</span><span class="pill">Document IDs</span><span class="pill">Incremental sync</span></div>
+                </article>
+                <div class="flow running" data-flow="2"><svg viewBox="0 0 42 100" preserveAspectRatio="none"><path d="M21 4 V96"/><path class="packet" d="M21 42 l-5 -7 h10 z"/></svg></div>
+                <article class="node retrieve" data-step="7" tabindex="0" role="button" aria-label="Hybrid retrieval">
+                    <div class="node-top">
+                        <div class="node-icon">🔎</div>
+                        <div>
+                            <h3>Hybrid Retrieval</h3>
+                            <p>Semantic + keyword search, metadata filters</p>
+                        </div>
+                    </div>
+                    <div class="pills"><span class="pill">Vector search</span><span class="pill">BM25</span><span class="pill">Top-k</span></div>
+                </article>
+
+                <div class="arrow-row running"><svg viewBox="0 0 30 24"><path d="M15 0 V18 M8 11 L15 19 L22 11"/></svg></div>
+                <div class="arrow-row running"><svg viewBox="0 0 30 24"><path d="M15 0 V18 M8 11 L15 19 L22 11"/></svg></div>
+
+                <article class="node data" data-step="3" tabindex="0" role="button" aria-label="Knowledge stores">
+                    <div class="node-top">
+                        <div class="node-icon">🗄️</div>
+                        <div>
+                            <h3>Knowledge & Metadata Stores</h3>
+                            <p>Vector index, source files, relational metadata</p>
+                        </div>
+                    </div>
+                    <div class="pills"><span class="pill">Vector DB</span><span class="pill">SQL metadata</span><span class="pill">Object storage</span></div>
+                </article>
+                <div class="flow running" data-flow="3"><svg viewBox="0 0 42 100" preserveAspectRatio="none"><path d="M21 4 V96"/><path class="packet" d="M21 42 l-5 -7 h10 z"/></svg></div>
+                <article class="node retrieve" data-step="8" tabindex="0" role="button" aria-label="Reranking and context assembly">
+                    <div class="node-top">
+                        <div class="node-icon">🎯</div>
+                        <div>
+                            <h3>Rerank & Context Builder</h3>
+                            <p>Score passages, deduplicate, assemble evidence</p>
+                        </div>
+                    </div>
+                    <div class="pills"><span class="pill">Cross-encoder</span><span class="pill">Token budget</span></div>
+                </article>
+
+                <div class="arrow-row running"><svg viewBox="0 0 30 24"><path d="M15 0 V18 M8 11 L15 19 L22 11"/></svg></div>
+                <div class="arrow-row running"><svg viewBox="0 0 30 24"><path d="M15 0 V18 M8 11 L15 19 L22 11"/></svg></div>
+
+                <article class="node observe" data-step="4" tabindex="0" role="button" aria-label="Ingestion quality checks">
+                    <div class="node-top">
+                        <div class="node-icon">🧪</div>
+                        <div>
+                            <h3>Ingestion QA & Versioning</h3>
+                            <p>Validation, duplicate checks, failed-job queue</p>
+                        </div>
+                    </div>
+                    <div class="pills"><span class="pill">Checksums</span><span class="pill">Retries</span><span class="pill">Audit trail</span></div>
+                </article>
+                <div class="flow running" data-flow="4"><svg viewBox="0 0 42 100" preserveAspectRatio="none"><path d="M21 4 V96"/><path class="packet" d="M21 42 l-5 -7 h10 z"/></svg></div>
+                <article class="node generate" data-step="9" tabindex="0" role="button" aria-label="Language model generation">
+                    <div class="node-top">
+                        <div class="node-icon">🤖</div>
+                        <div>
+                            <h3>LLM Answer Generation</h3>
+                            <p>Answer from retrieved evidence; refuse unsupported claims</p>
+                        </div>
+                    </div>
+                    <div class="pills"><span class="pill">Prompt templates</span><span class="pill">Guardrails</span></div>
+                </article>
+
+                <div class="lane-title center">03 · Cross-cutting enterprise controls</div>
+                <div class="twocol">
+                    <div class="mini-node"><b>🛡️ Identity, permissions & data protection</b><small>RBAC / ABAC · tenant isolation · secrets management · encryption · prompt-injection defenses</small></div>
+                    <div class="mini-node"><b>📈 Evaluation & observability</b><small>Structured logs · latency / token costs · retrieval quality · groundedness checks · human feedback</small></div>
+                </div>
+                <div class="arrow-row running"><svg viewBox="0 0 30 24"><path d="M15 0 V18 M8 11 L15 19 L22 11"/></svg></div>
+                <article class="node generate full" data-step="10" tabindex="0" role="button" aria-label="Generated response with citations">
+                    <div class="node-top">
+                        <div class="node-icon">💬</div>
+                        <div>
+                            <h3>Grounded Response + Citations</h3>
+                            <p>Answer, linked source passages, confidence / fallback behavior, feedback capture</p>
+                        </div>
+                    </div>
+                    <div class="pills"><span class="pill">Source references</span><span class="pill">Audit-ready</span><span class="pill">Feedback loop</span></div>
+                </article>
+            </div>
+            <div class="footer-grid">
+                <div class="footer-card"><strong>⚡ Ingestion pipeline</strong>
+                    <p>Runs asynchronously; new or changed documents are processed and indexed without blocking live questions.</p>
+                </div>
+                <div class="footer-card"><strong>🔐 Retrieval-time authorization</strong>
+                    <p>Permission filters must be applied before evidence reaches the model, not merely hidden in the UI.</p>
+                </div>
+                <div class="footer-card"><strong>📊 Continuous evaluation</strong>
+                    <p>Track retrieval relevance, citation correctness, groundedness, latency, and cost using representative test sets.</p>
+                </div>
+            </div>
+        </section>
+        <section class="detail" aria-live="polite">
+            <div>
+                <h2 id="detailTitle">Explore the architecture</h2>
+                <p id="detailText">Press “Next stage” to walk through the system, or select any architecture block for a short explanation. This is a conceptual framework and can be mapped to the exact modules and services in your repository.</p>
+            </div>
+            <div class="step-indicator" id="stepIndicator">STAGE 0 / 11</div>
+    </main>
+    <script>
+        const descriptions = [
+            ["Banking Knowledge Sources", "Start with approved internal knowledge: policy documents, standard operating procedures, product manuals, reports, FAQs, and structured files. Preserve ownership, version, and access metadata from the start."],
+            ["Document Processing", "Extract text and tables, run OCR where needed, normalize formats, redact sensitive values, then split content into coherent chunks. Attach source IDs and section/page metadata to every chunk."],
+            ["Embedding & Indexing", "Convert chunks into vector representations and index them with metadata. Support re-indexing and incremental updates so stale or deleted documents do not remain retrievable."],
+            ["Knowledge & Metadata Stores", "Keep embeddings, original files, and business metadata in suitable stores. The vector index is not a substitute for durable source storage or transactional metadata."],
+            ["Ingestion QA & Versioning", "Validate extraction and chunk quality, detect duplicate files, track processing status, retry transient failures, and retain an auditable link from each chunk to its source version."],
+            ["Bank Employee / Analyst", "The user asks a question through an authenticated interface. The platform should apply the same identity and entitlement model across chat, document search, and citations."],
+            ["Query Orchestrator", "Validate the request, apply rate limits, normalize or rewrite the query, and coordinate retrieval and generation. Keep orchestration separate from UI and storage logic."],
+            ["Hybrid Retrieval", "Combine semantic similarity with keyword retrieval and metadata filters. Enforce document-level authorization before selected passages are passed downstream."],
+            ["Rerank & Context Builder", "Rerank candidates for relevance, remove duplicates, assemble compact evidence, and respect the model context budget. Preserve source IDs for citations."],
+            ["LLM Answer Generation", "Pass the question and selected evidence to the language model with explicit instructions to use the evidence, disclose uncertainty, and avoid unsupported claims."],
+            ["Grounded Response + Citations", "Return a concise answer with source references. Capture feedback and trace IDs so incorrect answers can be investigated and evaluation can improve over time."]
+        ];
+        let current = 0,
+            playing = true,
+            timer = null;
+        const nodes = [...document.querySelectorAll(".node")];
+        const playBtn = document.getElementById("playBtn");
+
+        function activate(i) {
+            current = (i + descriptions.length) % descriptions.length;
+            nodes.forEach(n => n.classList.toggle("active", Number(n.dataset.step) === current));
+            document.getElementById("detailTitle").textContent = descriptions[current][0];
+            document.getElementById("detailText").textContent = descriptions[current][1];
+            document.getElementById("stepIndicator").textContent = `STAGE ${current+1} / ${descriptions.length}`;
+            document.getElementById("statusText").textContent = playing ? "PIPELINE SIMULATION ACTIVE" : "FLOW PAUSED";
+        }
+
+        function next() {
+            activate(current + 1)
+        }
+
+        function start() {
+            clearInterval(timer);
+            timer = setInterval(next, 2300)
+        }
+
+        function setPlaying(v) {
+            playing = v;
+            playBtn.textContent = playing ? "Ⅱ Pause flow" : "▶ Play flow";
+            document.querySelectorAll(".flow,.arrow-row").forEach(el => el.classList.toggle("running", playing));
+            document.getElementById("statusText").textContent = playing ? "PIPELINE SIMULATION ACTIVE" : "FLOW PAUSED";
+            if (playing) start();
+            else clearInterval(timer)
+        }
+        playBtn.addEventListener("click", () => setPlaying(!playing));
+        document.getElementById("stepBtn").addEventListener("click", () => {
+            setPlaying(false);
+            next()
+        });
+        document.getElementById("resetBtn").addEventListener("click", () => {
+            setPlaying(true);
+            activate(0);
+            start()
+        });
+        nodes.forEach(n => {
+            const go = () => {
+                setPlaying(false);
+                activate(Number(n.dataset.step))
+            };
+            n.addEventListener("click", go);
+            n.addEventListener("keydown", e => {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    go()
+                }
+            })
+        });
+        activate(0);
+        start();
+    </script>
+</body>
+
+</html>
