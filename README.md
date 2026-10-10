@@ -1,6 +1,5 @@
 # BankAI RAG Platform
 
-[![CI](https://github.com/macbhaldar/bankai-rag-platform/actions/workflows/ci.yml/badge.svg)](https://github.com/macbhaldar/bankai-rag-platform/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/API-FastAPI-009688.svg)](https://fastapi.tiangolo.com/)
